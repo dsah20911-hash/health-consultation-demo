@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription Checkout - MyHealth</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* --- General Setup --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            padding: 20px;
+        }
+
+        .checkout-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header {
+            color: #007bff;
+            font-size: 28px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        /* --- Two-Column Layout --- */
+        .checkout-layout {
+            display: flex;
+            gap: 30px;
+        }
+
+        .checkout-details {
+            flex: 2; /* Takes 2/3 width */
+        }
+
+        .order-summary-area {
+            flex: 1; /* Takes 1/3 width */
+        }
+
+        /* --- Section Styling (Delivery/Payment) --- */
+        .section-box {
+            background-color: #f8fafd;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 5px solid #007bff;
+        }
+
+        .section-box h3 {
+            color: #007bff;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #007bff;
+        }
+
+        /* --- Payment Options --- */
+        .payment-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .payment-option:hover {
+            background-color: #e6f0ff;
+        }
+
+        .payment-option input[type="radio"] {
+            margin-right: 10px;
+        }
+        
+        /* --- Order Summary Box --- */
+        .summary-box {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 40px;
+        }
+
+        .summary-box h3 {
+            color: #28a745; /* Green */
+            border-bottom: 2px solid #28a745;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .medicine-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .medicine-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 15px;
+        }
+
+        .summary-price {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 18px;
+            padding-top: 10px;
+            color: #007bff;
+        }
+
+        /* --- Final Action Button --- */
+        .place-order-btn {
+            width: 100%;
+            background-color: #dc3545; /* Red/Urgent Color */
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        
+        .place-order-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 900px) {
+            .checkout-layout {
+                flex-direction: column;
+            }
+            .summary-box {
+                position: static; /* Remove sticky on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="checkout-container">
+        <h2 class="page-header"><i class="fas fa-truck-moving"></i> Prescription Order Checkout</h2>
+
+        <div class="checkout-layout">
+            
+            <div class="checkout-details">
+
+                <div class="section-box">
+                    <h3>1. Delivery Address & Contact</h3>
+                    <div class="form-group">
+                        <label for="address">Full Delivery Address</label>
+                        <textarea id="address" rows="3" placeholder="Street Address, City, Ward No." required>Kathmandu-2, Dilli Bazar</textarea>
+                    </div>
+                    <div class="form-group" style="display: flex; gap: 15px;">
+                        <div style="flex: 1;">
+                            <label for="name">Recipient Name</label>
+                            <input type="text" id="name" value="Sanjana Thapa" required>
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" value="98*" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-box">
+                    <h3>2. Select Pharmacy Partner (Optional)</h3>
+                    <div class="form-group">
+                        <label for="pharmacy">Affiliated Pharmacy Near You</label>
+                        <select id="pharmacy" required>
+                            <option value="nearest">Nearest Pharmacy (Auto-select)</option>
+                            <option value="pharmacy_a">Jeevan Pharmacy (Dilli Bazar)</option>
+                            <option value="pharmacy_b">Global Drug Store (Putalisadak)</option>
+                        </select>
+                    </div>
+                    <p style="font-size: 14px; color: #666;"><i class="fas fa-info-circle"></i> Pharmacy will contact you to confirm final price and availability.</p>
+                </div>
+                
+                <div class="section-box">
+                    <h3>3. Payment Method</h3>
+                    <div class="payment-option">
+                        <input type="radio" name="payment" id="cod" checked>
+                        <label for="cod"><i class="fas fa-hand-holding-usd"></i> *Cash on Delivery (COD)*</label>
+                    </div>
+                    <div class="payment-option">
+                        <input type="radio" name="payment" id="online">
+                        <label for="online"><i class="fas fa-credit-card"></i> *Online Payment* (Khalti/eSewa/Bank Transfer)</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="order-summary-area">
+                <div class="summary-box">
+                    <h3><i class="fas fa-receipt"></i> Prescription Summary</h3>
+                    
+                    <p style="color: #007bff; font-weight: bold; margin-bottom: 15px;">Prescription ID: PT-1002-RX-01</p>
+                    <p style="font-size: 14px;">*Issued by:* Dr. Ram Sharma on 2025-11-30</p>
+                    
+                    <hr style="margin: 15px 0;">
+
+                    <ul class="medicine-list">
+                        <li><span>Medicine A (Amoxicillin 500mg x 7 Days)</span> <span>Approx. NPR 350</span></li>
+                        <li><span>Medicine B (Paracetamol x 10 Tabs)</span> <span>Approx. NPR 50</span></li>
+                        <li><span>Medicine C (Multivitamin x 30)</span> <span>Approx. NPR 600</span></li>
+                    </ul>
+                    
+                    <p style="font-size: 14px; color: #dc3545; margin-bottom: 10px;">
+                        *Estimated price only. Final price confirmed by Pharmacy partner.
+                    </p>
+                    
+                    <div class="summary-price">
+                        <span>ESTIMATED TOTAL:</span>
+                        <span>NPR 1,000</span>
+                    </div>
+                    
+                    <button class="place-order-btn">
+                        <i class="fas fa-check-circle"></i> Confirm & Place Order
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
+ssssssssssssssssss

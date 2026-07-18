@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - MyHealth Consultation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* --- General Setup --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex; /* Make body a flex container */
+        }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            width: 250px;
+            background-color: #007bff; /* Primary blue for sidebar */
+            color: white;
+            padding: 25px 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            min-height: 100vh; /* Ensure sidebar covers full height */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .logo {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        
+        .sidebar .logo i {
+            margin-right: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            flex-grow: 1; /* Allow ul to take available space */
+        }
+
+        .sidebar ul li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar ul li a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px 25px;
+            font-size: 16px;
+            transition: background-color 0.3s ease, padding-left 0.3s ease;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 15px;
+            font-size: 18px;
+            width: 20px; /* Align icons */
+        }
+
+        .sidebar ul li a:hover,
+        .sidebar ul li a.active {
+            background-color: #0056b3; /* Darker blue on hover/active */
+            padding-left: 30px;
+            border-left: 5px solid #28a745; /* Green active indicator */
+        }
+
+        /* --- Doctor Profile in Sidebar --- */
+        .doctor-profile {
+            text-align: center;
+            padding: 20px;
+            margin-top: auto; /* Push to bottom */
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .doctor-profile img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid white;
+            margin-bottom: 10px;
+            object-fit: cover;
+        }
+
+        .doctor-profile h4 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .doctor-profile span {
+            font-size: 13px;
+            color: #e0e0e0;
+        }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            flex-grow: 1; /* Take remaining width */
+            padding: 30px 40px;
+        }
+
+        /* --- Top Bar --- */
+        .topbar {
+            background-color:  rgb(168, 238, 252);;
+            padding: 20px 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+            color: #2c3e50;
+        }
+
+        .topbar .logout-btn {
+            background-color: #dc3545; /* Red for logout */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .topbar .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* --- Dashboard Cards --- */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background-color:  rgb(168, 238, 252);;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .card .icon {
+            font-size: 40px;
+            color: #007bff;
+        }
+
+        .card .info h3 {
+            font-size: 28px;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .card .info p {
+            font-size: 15px;
+            color: #666;
+        }
+
+        /* --- Appointment Table --- */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-header h2 {
+            font-size: 24px;
+            color: #2c3e50;
+        }
+
+        .section-header .view-all {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .appointment-table-container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow-x: auto; /* Allow horizontal scroll on small screens */
+        }
+
+        .appointment-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .appointment-table th, .appointment-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .appointment-table th {
+            background-color: #f8f9fa;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .appointment-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .appointment-table .status-pending {
+            color: #ffc107; /* Orange */
+            font-weight: 600;
+        }
+        .appointment-table .status-confirmed {
+            color: #28a745; /* Green */
+            font-weight: 600;
+        }
+        .appointment-table .status-completed {
+            color: #6c757d; /* Gray */
+            font-weight: 600;
+        }
+        
+        .appointment-table .action-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .appointment-table .action-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 900px) {
+            .sidebar {
+                width: 80px; /* Collapse sidebar */
+                padding: 20px 0;
+            }
+            .sidebar .logo, .sidebar .doctor-profile h4, .sidebar .doctor-profile span {
+                display: none;
+            }
+            .sidebar .logo i {
+                margin-right: 0;
+            }
+            .sidebar ul li a {
+                padding: 15px 0;
+                text-align: center;
+            }
+            .sidebar ul li a span { /* Hide text labels */
+                display: none;
+            }
+            .sidebar ul li a i {
+                margin-right: 0;
+            }
+            .sidebar ul li a:hover, .sidebar ul li a.active {
+                padding-left: 0;
+            }
+            .main-content {
+                padding: 20px;
+            }
+            .topbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            .topbar h1 {
+                font-size: 24px;
+            }
+            .dashboard-cards {
+                grid-template-columns: 1fr; /* Stack cards */
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .main-content {
+                padding: 15px;
+            }
+            .topbar {
+                padding: 10px;
+            }
+            .topbar h1 {
+                font-size: 20px;
+            }
+            .appointment-table th, .appointment-table td {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo"><i class="fa-solid fa-heart-pulse"></i> MyHealth Consultation</div>
+        <ul>
+            <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
+            <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>My Schedule</span></a></li>
+            <li><a href="#"><i class="fas fa-users"></i> <span>Patients</span></a></li>
+            <li><a href="#"><i class="fas fa-notes-medical"></i> <span>Prescriptions</span></a></li>
+            <li><a href="#"><i class="fas fa-chart-line"></i> <span>Reports</span></a></li>
+            <li><a href="#"><i class="fas fa-cogs"></i> <span>Settings</span></a></li>
+        </ul>
+        <div class="doctor-profile">
+            <img src="https://img.freepik.com/free-photo/senior-doctor-with-her-colleagues-hospital_23-2149363065.jpg?w=740" alt="Dr. Sharma">
+            <h4>Dr. Ram Sharma</h4>
+            <span>Cardiologist</span>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="topbar">
+            <h1>Welcome, Our Hospital</h1>
+            <button class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+
+        <div class="dashboard-cards">
+            <div class="card">
+                <div class="icon"><i class="fas fa-calendar-check"></i></div>
+                <div class="info">
+                    <h3>5</h3>
+                    <p>Today's Appointments</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="icon"><i class="fas fa-users-medical"></i></div>
+                <div class="info">
+                    <h3>120</h3>
+                    <p>Total Patients</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="icon"><i class="fas fa-hourglass-half"></i></div>
+                <div class="info">
+                    <h3>3</h3>
+                    <p>Pending Consultations</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="icon"><i class="fas fa-star"></i></div>
+                <div class="info">
+                    <h3>4.8</h3>
+                    <p>Average Rating</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h2>Upcoming Appointments</h2>
+            <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="appointment-table-container">
+            <table class="appointment-table">
+                <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Time</th>
+                        <th>Date</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mr. Hari Prasad</td>
+                        <td>10:00 AM</td>
+                        <td>2024-03-10</td>
+                        <td>Chest Pain</td>
+                        <td class="status-confirmed">Confirmed</td>
+                        <td>
+                            <button class="action-btn">View Details</button>
+                            <button class="action-btn" style="background-color: #28a745;">Start Call</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ms. Sanjana Thapa</td>
+                        <td>11:30 AM</td>
+                        <td>2024-03-10</td>
+                        <td>Follow-up</td>
+                        <td class="status-pending">Pending</td>
+                        <td>
+                            <button class="action-btn">View Details</button>
+                            <button class="action-btn" style="background-color: #007bff;">Reschedule</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mr. Kamal Basnet</td>
+                        <td>02:00 PM</td>
+                        <td>2024-03-10</td>
+                        <td>High Blood Pressure</td>
+                        <td class="status-confirmed">Confirmed</td>
+                        <td>
+                            <button class="action-btn">View Details</button>
+                            <button class="action-btn" style="background-color: #28a745;">Start Call</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mrs. Devi Ghimire</td>
+                        <td>04:30 PM</td>
+                        <td>2024-03-11</td>
+                        <td>General Checkup</td>
+                        <td class="status-pending">Pending</td>
+                        <td>
+                            <button class="action-btn">View Details</button>
+                            <button class="action-btn" style="background-color: #007bff;">Reschedule</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

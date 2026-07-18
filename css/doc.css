@@ -1,0 +1,31 @@
+/* Doctor Consult Page Styles */
+.hero {
+  background: linear-gradient(to right, #99cfd1, #ffffff);
+  padding: 60px 15px;
+}
+
+.search-box-input {
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 50px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.search-box-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.doctor-card img {
+  object-fit: cover;
+}
+
+.doctor-card button {
+  cursor: pointer;
+}

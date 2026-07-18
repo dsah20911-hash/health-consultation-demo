@@ -1,0 +1,115 @@
+
+    
+        /* --- General Setup --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6; /* Light gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* --- Login Box Container --- */
+        .login-container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 400px; /* Form width limit */
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* --- Header and Icon --- */
+        .login-header i {
+            font-size: 50px;
+            color: #007bff; /* Primary medical blue */
+            margin-bottom: 15px;
+        }
+
+        .login-header h2 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+
+        .login-header p {
+            color: #777;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        /* --- Form Fields --- */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+        }
+
+        /* --- Login Button --- */
+        .btn-login {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            background-color: #0056b3;
+        }
+        
+        /* --- Footer Links --- */
+        .footer-links {
+            margin-top: 25px;
+            font-size: 14px;
+        }
+
+        .footer-links a {
+            color: #007bff;
+            text-decoration: none;
+            transition: 0.3s;
+            display: block; /* Make links stack */
+            margin-bottom: 10px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+    
