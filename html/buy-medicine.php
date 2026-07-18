@@ -11,7 +11,7 @@ session_start();
     <title>Fulfill Prescription - MyHealth</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* --- General Setup --- */
+        
         * {
             margin: 0;
             padding: 0;
